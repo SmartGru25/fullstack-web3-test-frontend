@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 
 import { Navbar } from './components';
-import { Feed, LogIn, Profile, SignUp } from './pages';
+import { Secrets, LogIn, Profile, SignUp } from './pages';
 import { IUser } from './interfaces';
 
 export default function App() {
@@ -31,7 +31,7 @@ export default function App() {
         <Route path="/" element={
           <Fragment>
             <Navbar currentUser={currentUser} onLogOut={() => setCurrentUser(null)}  />
-            <Feed />
+            <Secrets />
           </Fragment>
         } />
         <Route path="*" element={<Navigate to="/" replace />} />

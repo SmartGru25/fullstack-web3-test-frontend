@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { ErrorBox, Story } from "../../components";
 import { IStory } from "../../interfaces";
 import { fetchStories } from "../../requests";
-import styles from './Feed.module.css';
+import styles from './Secrets.module.css';
 
-export function Feed() {
+export function Secrets() {
   const [storiesLoaded, setStoriesLoaded] = useState(false);
   const [stories, setStories] = useState<IStory[]>([]);
   const [error, setError] = useState(false);

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './base';
 import { INewStory, IStory } from "../interfaces";
 
 export async function fetchStories(authorId?: number): Promise<IStory[]> {

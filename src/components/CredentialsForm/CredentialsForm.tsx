@@ -25,6 +25,16 @@ export function CredentialsForm(props: CredentialsFormProps) {
     props.onSubmit({ email, password });
   }
 
+  function onWalletConnect(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    // Clear form
+    setEmail('');
+    setPassword('');
+
+    props.onSubmit({ email, password });
+  }
+
   return (
     <div>
       <h1 className={styles.title}>{word}</h1>
@@ -51,8 +61,8 @@ export function CredentialsForm(props: CredentialsFormProps) {
       <div className={styles.separator}>
       </div>
       <div>
-        <form action="/api/auth/google" method="get">
-          <input type="submit" value={`${word} with Google`} className={`${styles.btn} btn`} />
+        <form onSubmit={onWalletConnect} method="get">
+          <input type="submit" value={`${word} with Wallet`} className={`${styles.btn} btn`} />
         </form>
       </div>
     </div>
