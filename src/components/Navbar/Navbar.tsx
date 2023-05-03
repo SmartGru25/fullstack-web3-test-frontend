@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IUser } from '../../interfaces';
 import { logOut } from '../../requests';
 import styles from './Navbar.module.css';
@@ -10,12 +10,12 @@ interface NavbarProps {
 }
 
 export function Navbar(props: NavbarProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   async function logOutAndRedirect() {
     await logOut();
     props.onLogOut();
-    history.push('/');
+    navigate('/');
   }
 
   return (

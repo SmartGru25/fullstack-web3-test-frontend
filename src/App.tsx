@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from 'react';
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route,
-  Redirect,
+  Navigate,
 } from "react-router-dom";
 
 import { Navbar } from './components';
@@ -15,34 +15,27 @@ export default function App() {
 
   return (
     <Router>
-      <div>
-        <Switch>
-          <Route exact path="/login">
-            <LogIn onLogIn={setCurrentUser} />
-          </Route>
-          <Route exact path="/profile">
-            {currentUser ?
-              (
-                <Fragment>
-                  <Navbar currentUser={currentUser} onLogOut={() => setCurrentUser(null)} />
-                  <Profile currentUser={currentUser} onProfileChange={setCurrentUser} />
-                </Fragment>
-              ) :
-              <Redirect to="/login" />
-            }
-          </Route>
-          <Route exact path="/signup">
-            <SignUp onSignUp={setCurrentUser} />
-          </Route>
-          <Route exact path="/">
+      <Routes>
+        <Route path="/login" element={<LogIn onLogIn={setCurrentUser} />} />
+        <Route path="/profile" element={
+          currentUser ?
+          (
+            <Fragment>
+              <Navbar currentUser={currentUser} onLogOut={() => setCurrentUser(null)} />
+              <Profile currentUser={currentUser} onProfileChange={setCurrentUser} />
+            </Fragment>
+          ) :
+          <Navigate to="/login" />
+        } />
+        <Route path="/signup" element={<SignUp onSignUp={setCurrentUser} />} />
+        <Route path="/" element={
+          <Fragment>
             <Navbar currentUser={currentUser} onLogOut={() => setCurrentUser(null)}  />
             <Feed />
-          </Route>
-          <Route path="*">
-            <Redirect to="/" />
-          </Route>
-        </Switch>
-      </div>
+          </Fragment>
+        } />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </Router>
   );
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import { CredentialsForm } from "../../components";
 import { ICredentials, IUser } from "../../interfaces";
 import { signUp } from "../../requests";
@@ -13,13 +13,13 @@ interface SignUpProps {
 export function SignUp(props: SignUpProps) {
   const [error, setError] = useState(false);
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   async function signUpAndRedirect(credentials: ICredentials) {
     try {
       const user = await signUp(credentials);
       props.onSignUp(user);
-      history.push('/');
+      navigate('/');
     } catch (error) {
       console.log(error);
       setError(true);
