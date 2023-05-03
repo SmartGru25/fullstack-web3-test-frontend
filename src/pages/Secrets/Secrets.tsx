@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { ErrorBox, Story } from "../../components";
-import { IStory } from "../../interfaces";
-import { fetchStories } from "../../requests";
+import { ErrorBox } from "../../components";
+import { ISecret } from "../../interfaces";
+import { fetchSecret } from "../../requests";
 import styles from './Secrets.module.css';
 
+const defaultSecret: ISecret = {
+  id: 0,
+  message: ''
+};
+
 export function Secrets() {
-  const [storiesLoaded, setStoriesLoaded] = useState(false);
-  const [stories, setStories] = useState<IStory[]>([]);
+  const [secretLoaded, setSecretLoaded] = useState(false);
+  const [secret, setSecret] = useState<ISecret>(defaultSecret);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (!storiesLoaded) {
-      fetchStories()
-        .then(stories => {
-          setStories(stories);
-          setStoriesLoaded(true);
+    if (!secretLoaded) {
+      fetchSecret()
+        .then(data => {
+          setSecret(data);
+          setSecretLoaded(true);
         })
         .catch(err => {
           console.log(err);
@@ -28,7 +33,12 @@ export function Secrets() {
       {
         error && <ErrorBox />
       }
-      {stories.map(story => <Story story={story} key={story.id} />)}
+      <div className="box">
+        <h2>The Secret Message is ...</h2>
+        <span className={styles.message}>
+          { secret.message }
+        </span>
+      </div>
     </div>
   )
 }

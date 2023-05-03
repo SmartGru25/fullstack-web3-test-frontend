@@ -25,14 +25,13 @@ export function Navbar(props: NavbarProps) {
         props.currentUser ?
         (
           <Fragment>
-            <Link to="/" className="btn btnPrimary">Feed</Link>
+            <Link to="/" className="btn btnPrimary">Secrets</Link>
             <Link to="/profile" className="btn btnPrimary">Profile</Link>
             <button onClick={logOutAndRedirect} className="btn">Log out</button>
           </Fragment>
         ) : (
           <Fragment>
             <Link to="/login" className="btn btnPrimary">Log in</Link>
-            <Link to="/signup" className="btn btnPrimary">Sign up</Link>
           </Fragment>
         )
       }
