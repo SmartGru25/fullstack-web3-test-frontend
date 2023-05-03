@@ -1,0 +1,16 @@
+.navbar {
+  height: 60px;
+  background-color: #4B89EC;
+
+  display: flex;
+  align-items: center;
+}
+
+.navbar>* {
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+.navbar>*:first-child {
+  flex-grow: 1;
+}

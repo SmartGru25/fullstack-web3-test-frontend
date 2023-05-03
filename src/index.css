@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+  background-color: #F4F4F5;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.box {
+  padding: 15px;
+  background-color: #fff;
+  box-shadow: 0 6px 22px 0 rgba(0,0,0,.06);
+  border-radius: 10px;
+}
+
+.btn {
+  font-size: 1rem;
+  padding: 7px 15px;
+  background-color: #E9EAEB;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #53565D;
+  box-shadow: 0 6px 22px 0 rgba(0,0,0,.06);
+}
+
+.btnSmall {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+
+.btn:hover {
+  background-color: #D4D5D6;
+}
+
+.btnPrimary {
+  background-color: #296EDB;
+  color: white;
+}
+
+.btnPrimary:hover {
+  background-color: #4B89EC;
+}

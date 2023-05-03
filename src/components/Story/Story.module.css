@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  margin-top: 20px;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.mainContent {
+  flex: 1;
+}
+
+.title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.authorName {
+  font-size: 0.85rem;
+  color: #53565D;
+}
+
+.deletion {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
