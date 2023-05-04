@@ -1,26 +1,30 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IUser } from '../../interfaces';
-import { logIn } from '../../requests';
+import { ICredentials } from '../../interfaces';
+import { signIn } from '../../requests';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { web3Accounts, web3Enable, web3FromAddress } from '@polkadot/extension-dapp';
 import { isFunction, u8aToHex, u8aWrapBytes } from '@polkadot/util';
+import { getCookie, setCookie } from 'typescript-cookie'
 
 import styles from './LogIn.module.css';
 
-interface LogInProps {
-  onLogIn: (user: IUser) => void;
-}
-
-export function LogIn(props: LogInProps) {
+export function LogIn() {
+  const token = getCookie('foaltoken');
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
   const [currentAccount, setCurrentAccount] = useState<InjectedAccountWithMeta | null>(null);
 
   useEffect(() => {
+    // if token is in cookie (user logs in), then redirect to homepage
+    if (token) {
+      navigate('/');
+      return;
+    }
+    // enable extension and connect wallet
     extensionSetup();
-  }, []);
+  }, [token, navigate]);
 
   const extensionSetup = async () => {
     const extensions = await web3Enable('Polkadot Test App');
@@ -57,30 +61,39 @@ export function LogIn(props: LogInProps) {
         return;
       }
 
-      const messageToBeSigned = `Sign-in request for address ${currentAccount?.address}.`;
-      const wrapped = u8aWrapBytes(messageToBeSigned);
-
+      const message = `Sign-in request for address ${currentAccount?.address}.`;
+      const wrapped = u8aWrapBytes(message);
       const signedData = await signer.signRaw({
           address: currentAccount.address,
           data: u8aToHex(wrapped),
           type: 'bytes'
         });
+
+      if (signedData === null) {
+        setError('Sign message error');
+        return;
+      }
+
+      const reqBody: ICredentials = {
+        address: currentAccount.address,
+        message,
+        signature: signedData.signature
+      };
+      try {
+        const res = await signIn(reqBody);
+        console.log(res);
+        setCookie('foaltoken', res);
+        navigate('/');
+      } catch (error: any) {
+        console.log(error);
+        setError('Sign in failed');
+      }
     },
-    [currentAccount]
+    [currentAccount, navigate]
   );
 
   const logInAndRedirect = async () => {
     _onSign();
-
-    setError("");
-    try {
-      // const user = await logIn(address);
-      // props.onLogIn(user);
-      navigate("/");
-    } catch (error: any) {
-      console.log(error);
-      setError(error);
-    }
   };
 
   return (
