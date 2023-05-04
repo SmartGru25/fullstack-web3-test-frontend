@@ -4,6 +4,7 @@ import { ISecret } from "../../interfaces";
 import { fetchSecret } from "../../requests";
 import styles from './Secrets.module.css';
 import { getToken } from "../../token";
+import { useNavigate } from 'react-router-dom';
 
 const defaultSecret: ISecret = {
   id: 0,
@@ -12,9 +13,18 @@ const defaultSecret: ISecret = {
 
 export function Secrets() {
   const token = getToken();
+  const navigate = useNavigate();
   const [secretLoaded, setSecretLoaded] = useState(false);
   const [secret, setSecret] = useState<ISecret>(defaultSecret);
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    // if token is in cookie (user logs in), then redirect to homepage
+    if (!token || token === '') {
+      navigate('/signin');
+      return;
+    }
+  }, [token, navigate]);
 
   useEffect(() => {
     if (!secretLoaded) {

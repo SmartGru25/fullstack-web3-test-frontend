@@ -4,7 +4,7 @@ import styles from './ErrorBox.module.css';
 export function ErrorBox() {
   return (
     <div className={`${styles.container} box`}>
-      You need to <Link to="./signin">Sign In</Link> to see the <b>SECRET</b> message.
+      Invalid token. You need to <Link to="./signin">Sign In</Link> to see the <b>SECRET</b> message.
     </div>
   )
 }
