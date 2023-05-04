@@ -3,7 +3,7 @@ import { ErrorBox } from "../../components";
 import { ISecret } from "../../interfaces";
 import { fetchSecret } from "../../requests";
 import styles from './Secrets.module.css';
-import { getCookie } from 'typescript-cookie';
+import { getToken } from "../../token";
 
 const defaultSecret: ISecret = {
   id: 0,
@@ -11,7 +11,7 @@ const defaultSecret: ISecret = {
 };
 
 export function Secrets() {
-  const token = getCookie('foaltoken');
+  const token = getToken();
   const [secretLoaded, setSecretLoaded] = useState(false);
   const [secret, setSecret] = useState<ISecret>(defaultSecret);
   const [error, setError] = useState(false);

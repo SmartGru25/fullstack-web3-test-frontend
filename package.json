@@ -52,6 +52,5 @@
     "@types/cookie": "^0.5.1",
     "@types/react-router-dom": "^5.3.3",
     "dotenv": "^16.0.3"
-  },
-  "proxy": "http://localhost:3001"
+  }
 }

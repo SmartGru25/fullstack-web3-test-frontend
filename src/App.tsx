@@ -7,14 +7,14 @@ import {
 } from "react-router-dom";
 
 import { Navbar } from './components';
-import { Secrets, LogIn } from './pages';
+import { Secrets, SignIn } from './pages';
 
 export default function App() {
 
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<LogIn />} />
+        <Route path="/signin" element={<SignIn />} />
         <Route path="/" element={
           <Fragment>
             <Navbar />

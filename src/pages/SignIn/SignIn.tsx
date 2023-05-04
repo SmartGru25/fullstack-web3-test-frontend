@@ -5,12 +5,12 @@ import { signIn } from '../../requests';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { web3Accounts, web3Enable, web3FromAddress } from '@polkadot/extension-dapp';
 import { isFunction, u8aToHex, u8aWrapBytes } from '@polkadot/util';
-import { getCookie, setCookie } from 'typescript-cookie'
+import { getToken, setToken } from "../../token";
 
-import styles from './LogIn.module.css';
+import styles from './SignIn.module.css';
 
-export function LogIn() {
-  const token = getCookie('foaltoken');
+export function SignIn() {
+  const token = getToken();
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
@@ -47,7 +47,7 @@ export function LogIn() {
     setCurrentAccount(account || null);
   }, [accounts]);
 
-  const _onSign = useCallback(
+  const _onSignIn = useCallback(
     async (): Promise<void> => {
       if (!currentAccount) {
         setError('No selected wallet account');
@@ -82,7 +82,7 @@ export function LogIn() {
       try {
         const res = await signIn(reqBody);
         console.log(res);
-        setCookie('foaltoken', res);
+        setToken(res);
         navigate('/');
       } catch (error: any) {
         console.log(error);
@@ -91,10 +91,6 @@ export function LogIn() {
     },
     [currentAccount, navigate]
   );
-
-  const logInAndRedirect = async () => {
-    _onSign();
-  };
 
   return (
     <div className={`${styles.container} box`}>
@@ -121,7 +117,7 @@ export function LogIn() {
         </select>
       </div>
       <div>
-        <button onClick={logInAndRedirect} className={`${styles.btn} btn btnPrimary`}>Sign in with wallet</button>
+        <button onClick={_onSignIn} className={`${styles.btn} btn btnPrimary`}>Sign in with wallet</button>
       </div>
     </div>
   );
