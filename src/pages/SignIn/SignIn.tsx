@@ -5,9 +5,9 @@ import { signIn } from '../../requests';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { web3Accounts, web3Enable, web3FromAddress } from '@polkadot/extension-dapp';
 import { isFunction, u8aToHex, u8aWrapBytes } from '@polkadot/util';
-import { getToken, setToken } from "../../token";
-
+import { getToken, setToken } from '../../token';
 import styles from './SignIn.module.css';
+import { setCookie } from 'typescript-cookie';
 
 export function SignIn() {
   const token = getToken();
@@ -81,8 +81,8 @@ export function SignIn() {
       };
       try {
         const res = await signIn(reqBody);
-        console.log(res);
         setToken(res);
+        setCookie('wallet', JSON.stringify(currentAccount));
         navigate('/');
       } catch (error: any) {
         console.log(error);
@@ -122,9 +122,9 @@ export function SignIn() {
       <div className={styles.separator}>
       </div>
       <p className={styles.hint}>You need to have&nbsp;
-        <a href="https://polkadot.js.org/extension/" target="_blank">Polkadot.js Extension</a>
+        <a href="https://polkadot.js.org/extension/" target="_blank" rel="noreferrer">Polkadot.js Extension</a>
         &nbsp;installed in your Browser and&nbsp;
-        <a href="https://support.polkadot.network/support/solutions/articles/65000098878-how-to-create-a-dot-account" target="_blank">create an account</a> first.
+        <a href="https://support.polkadot.network/support/solutions/articles/65000098878-how-to-create-a-dot-account" target="_blank" rel="noreferrer">create an account</a> first.
       </p>
     </div>
   );
