@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ICredentials } from '../../interfaces';
 import { signIn } from '../../requests';
@@ -8,6 +8,8 @@ import { isFunction, u8aToHex, u8aWrapBytes } from '@polkadot/util';
 import { getToken, setToken } from '../../token';
 import styles from './SignIn.module.css';
 import { setCookie } from 'typescript-cookie';
+import Select from 'react-select';
+import Identicon from '@polkadot/react-identicon';
 
 export function SignIn() {
   const token = getToken();
@@ -15,6 +17,7 @@ export function SignIn() {
   const navigate = useNavigate();
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
   const [currentAccount, setCurrentAccount] = useState<InjectedAccountWithMeta | null>(null);
+  const options = useMemo(() => accounts.map(acc => ({ label: acc.meta.name || '', value: acc.address })), [accounts]);
 
   useEffect(() => {
     // if token is in cookie (user logs in), then redirect to homepage
@@ -92,6 +95,18 @@ export function SignIn() {
     [currentAccount, navigate]
   );
 
+  const formatOptionLabel = (props: { value: string, label: string }) => (
+    <div className={styles.optionLabel}>
+      <Identicon
+        value={props.value}
+        size={32}
+        theme="polkadot"
+      />
+      <span className={styles.accountName}>{ props.label }</span>
+      <span className={styles.accontAddress}>{ props.value.slice(0, 4) + '...' + props.value.slice(-4) }</span>
+    </div>
+  );
+
   return (
     <div className={`${styles.container} box`}>
       <h1 className={styles.title}>Sign In</h1>
@@ -102,30 +117,30 @@ export function SignIn() {
           </div>
         )
       }
-      <div className={styles.formGroup}>
-        <label htmlFor="address">Wallet Address</label>
-        <select
-          id="address"
+      <div className={styles.selectBox}>
+        <h3>Select Wallet</h3>
+        <Select
           name="address"
-          defaultValue={currentAccount?.address}
-          onChange={(e) => _onChangeAccount(e.target.value)}>
-          <option value="" disabled>{ accounts.length ? 'Select wallet' : 'No wallet'}</option>
-          { accounts.map(account => (
-              <option value={account.address} key={account.address}> { account.address } </option>
-            ))
-          }
-        </select>
+          noOptionsMessage={() => "Not found wallet account"}
+          formatOptionLabel={formatOptionLabel}
+          value={options[0]}
+          isSearchable={false}
+          onChange={(selectedOption) => _onChangeAccount(selectedOption?.value || null)}
+          options={options}
+        />
       </div>
       <div>
         <button onClick={_onSignIn} className={`${styles.btn} btn btnPrimary`}>Sign in with wallet</button>
       </div>
       <div className={styles.separator}>
       </div>
-      <p className={styles.hint}>You need to have&nbsp;
-        <a href="https://polkadot.js.org/extension/" target="_blank" rel="noreferrer">Polkadot.js Extension</a>
-        &nbsp;installed in your Browser and&nbsp;
-        <a href="https://support.polkadot.network/support/solutions/articles/65000098878-how-to-create-a-dot-account" target="_blank" rel="noreferrer">create an account</a> first.
-      </p>
+      <div className={styles.hintBox}>
+        <p className={styles.hint}>You need to have&nbsp;
+          <a href="https://polkadot.js.org/extension/" target="_blank" rel="noreferrer">Polkadot.js Extension</a>
+          &nbsp;installed in your Browser and&nbsp;
+          <a href="https://support.polkadot.network/support/solutions/articles/65000098878-how-to-create-a-dot-account" target="_blank" rel="noreferrer">create an account</a> first.
+        </p>
+      </div>
     </div>
   );
 }

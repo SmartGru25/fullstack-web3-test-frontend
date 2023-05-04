@@ -1,6 +1,7 @@
 .container {
   margin: auto;
   margin-top: 60px;
+  min-width: 250px;
   max-width: 550px;
 }
 
@@ -18,18 +19,25 @@
   margin-bottom: 10px;
 }
 
-.formGroup {
+.selectBox {
   display: flex;
   flex-direction: column;
-  margin: 30px 10px;
+  margin: 20px 10px;
 }
 
-.formGroup label {
-  margin-bottom: 10px;
+.optionLabel {
+  display: flex;
+  align-items: center;
 }
 
-.formGroup select {
-  height: 30px;
+.accountName {
+  margin-left: 10px;
+}
+
+.accontAddress {
+  color: #999;
+  margin-left: auto;
+  order: 2;
 }
 
 .btn {
@@ -40,6 +48,10 @@
 .separator {
   margin: 20px 10px;
   border-top: 1px solid #D4D5D6;
+}
+
+.hintBox {
+  margin: 0px 10px;
 }
 
 .hint {
