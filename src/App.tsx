@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 
 import { Navbar } from './components';
-import { Secrets, LogIn, Profile, SignUp } from './pages';
+import { Secrets, LogIn, Profile } from './pages';
 import { IUser } from './interfaces';
 
 export default function App() {
@@ -27,7 +27,6 @@ export default function App() {
           ) :
           <Navigate to="/login" />
         } />
-        <Route path="/signup" element={<SignUp onSignUp={setCurrentUser} />} />
         <Route path="/" element={
           <Fragment>
             <Navbar currentUser={currentUser} onLogOut={() => setCurrentUser(null)}  />
