@@ -1,13 +1,11 @@
-import { ICredentials, IUser } from '../interfaces';
+import axios from './base';
+import { ICredentials } from '../interfaces';
 
-export async function logIn(credentials: ICredentials): Promise<IUser> {
-  throw new Error('Not implemented yet!');
+export async function signIn(credentials: ICredentials): Promise<string> {
+  const response = await axios.post<string>('/signin', credentials);
+  return response.data;
 }
 
-export async function logOut(): Promise<void> {
-  throw new Error('Not implemented yet!');
-}
-
-export async function signUp(credentials: ICredentials): Promise<IUser> {
-  throw new Error('Not implemented yet!');
+export async function signOut(): Promise<void> {
+  await axios.post('/signout');
 }
