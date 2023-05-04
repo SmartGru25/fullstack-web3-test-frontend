@@ -119,6 +119,13 @@ export function SignIn() {
       <div>
         <button onClick={_onSignIn} className={`${styles.btn} btn btnPrimary`}>Sign in with wallet</button>
       </div>
+      <div className={styles.separator}>
+      </div>
+      <p className={styles.hint}>You need to have&nbsp;
+        <a href="https://polkadot.js.org/extension/" target="_blank">Polkadot.js Extension</a>
+        &nbsp;installed in your Browser and&nbsp;
+        <a href="https://support.polkadot.network/support/solutions/articles/65000098878-how-to-create-a-dot-account" target="_blank">create an account</a> first.
+      </p>
     </div>
   );
 }

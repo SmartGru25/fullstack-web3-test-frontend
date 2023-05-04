@@ -1,7 +1,7 @@
 .container {
   margin: auto;
   margin-top: 60px;
-  max-width: 500px;
+  max-width: 550px;
 }
 
 .title {
@@ -35,4 +35,19 @@
 .btn {
   width: calc(100% - 20px);
   margin: 0 10px;
+}
+
+.separator {
+  margin: 20px 10px;
+  border-top: 1px solid #D4D5D6;
+}
+
+.hint {
+  color: #999;
+  font-size: 0.8em;
+}
+
+.hint a {
+  color: #333;
+  text-decoration: none;
 }
