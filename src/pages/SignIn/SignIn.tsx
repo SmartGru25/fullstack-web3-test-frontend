@@ -18,6 +18,12 @@ export function SignIn() {
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
   const [currentAccount, setCurrentAccount] = useState<InjectedAccountWithMeta | null>(null);
   const options = useMemo(() => accounts.map(acc => ({ label: acc.meta.name || '', value: acc.address })), [accounts]);
+  const selectedOption = useMemo(() => {
+    if (currentAccount) {
+      return { label: currentAccount.meta.name || '', value: currentAccount.address };
+    }
+    return options[0];
+  }, [currentAccount, options]);
 
   useEffect(() => {
     // if token is in cookie (user logs in), then redirect to homepage
@@ -123,9 +129,9 @@ export function SignIn() {
           name="address"
           noOptionsMessage={() => "Not found wallet account"}
           formatOptionLabel={formatOptionLabel}
-          value={options[0]}
+          value={selectedOption}
           isSearchable={false}
-          onChange={(selectedOption) => _onChangeAccount(selectedOption?.value || null)}
+          onChange={(option) => _onChangeAccount(option?.value || null)}
           options={options}
         />
       </div>
