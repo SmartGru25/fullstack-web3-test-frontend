@@ -1,4 +1,5 @@
 export interface ICredentials {
-  email: string;
-  password: string;
+  address: string;
+  message: string;
+  signature: string;
 }

@@ -1,33 +1,26 @@
 import { Fragment } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { IUser } from '../../interfaces';
-import { logOut } from '../../requests';
+import { Link } from 'react-router-dom';
+import { signOut } from '../../requests';
 import styles from './Navbar.module.css';
+import { getCookie, removeCookie } from 'typescript-cookie';
 
-interface NavbarProps {
-  currentUser: IUser|null;
-  onLogOut: () => void;
-}
+export function Navbar() {
+  const token = getCookie('foaltoken');
 
-export function Navbar(props: NavbarProps) {
-  const navigate = useNavigate();
-
-  async function logOutAndRedirect() {
-    await logOut();
-    props.onLogOut();
-    navigate('/');
+  const logOutAndRedirect = async () => {
+    removeCookie('foaltoken');
+    await signOut();
   }
 
   return (
     <div className={styles.navbar}>
       <div></div>
       {
-        props.currentUser ?
+        token ?
         (
           <Fragment>
             <Link to="/" className="btn btnPrimary">Secrets</Link>
-            <Link to="/profile" className="btn btnPrimary">Profile</Link>
-            <button onClick={logOutAndRedirect} className="btn">Log out</button>
+            <Link to="/login" onClick={logOutAndRedirect} className="btn">Log out</Link>
           </Fragment>
         ) : (
           <Fragment>
